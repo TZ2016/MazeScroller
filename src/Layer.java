@@ -48,4 +48,17 @@ public class Layer {
 	void setObstacle(int index, Obstacle o) {
 		layer[index] = o;
 	}
+	
+	public String toString() {
+		boolean first = true;
+		String rtn = "";
+		for (Obstacle o : layer) {
+			if (first) 
+				first = false;
+			else 
+				rtn += " ";
+			rtn += o;
+		}
+		return rtn;
+	}
 }

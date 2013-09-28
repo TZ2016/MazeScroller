@@ -1,5 +1,4 @@
 class Obstacle {
-
 	final int damage;
 	final int style; // a space holder for GUI
 	
@@ -10,5 +9,9 @@ class Obstacle {
 
 	static Obstacle generateObstacle() {
 		return new Obstacle(Util.generateInteger(1, 5), Util.generateInteger(1, 5));
+	}
+	
+	public String toString() {
+		return "X";
 	}
 }
