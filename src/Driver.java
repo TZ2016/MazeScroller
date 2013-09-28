@@ -40,9 +40,20 @@ public class Driver {
 			switch(command) {
 			case "a":
 				System.out.println("I'm moving left!");
-				
+				scene = maze.getScene(LEFT);
+				buffer = maze.requestLayer(scene.getTop());
+				break;
 			case "d":
-				
+				scene = maze.getScene(RIGHT);
+				buffer = maze.requestLayer(scene.getTop());
+				break;
+			case "s":
+				scene = maze.getScene(REVERT);
+				buffer = maze.requestLayer(scene.getTop());
+				break;
+			default:
+				scene.updateNext(buffer);
+				buffer = maze.requestLayer(buffer);
 			}
 		}
 		
