@@ -14,6 +14,6 @@ class Obstacle {
 
 	public static void main(String[] args) {
 		for (int i = 0; i < 10; i++) 
-			println(generateInteger(1, 5));
+			Util.println(Util.generateInteger(1, 5));
 	}
 }
