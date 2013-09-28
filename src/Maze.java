@@ -1,9 +1,7 @@
 public class Maze {
+	private final int width, height;
 	private static double mazeDensity = 0.15;
-	
-	public final int width, height;
-	private MazeGen maze;
-	
+	private MazeGen maze;	
 	private int currX, currY;
 	
 	public Maze (MazeGen m) {
@@ -63,5 +61,13 @@ public class Maze {
 		return new Layer(canTurnLeft(), canTurnRight(), oldLayer);
 	}
 	
-	
+	int getWidth() {
+		return width;
+	}
+	int getHeight() {
+		return height;
+	}	
+	double getDensity() {
+		return mazeDensity;
+	}
 }
