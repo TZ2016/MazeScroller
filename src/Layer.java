@@ -10,5 +10,10 @@ public class Layer {
 	
 	protected generateRandom() {
 		// random mutate layer and create obstacles
+		
+	}
+	
+	private boolean randomMazeDensity() {
+		
 	}
 }
