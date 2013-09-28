@@ -18,5 +18,7 @@ public class Scene {
 		scene.remove(0);
 	}
 	
-	
+	Layer getTop() {
+		return scene.get(HEIGHT-1);
+	}
 }

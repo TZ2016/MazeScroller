@@ -32,6 +32,10 @@ public class Maze {
 		return currX == width-1 && currY == 0;
 	}
 	
+	Scene getScene() {
+		return new Scene(true);
+	}
+	
 	// 0 ahead, -1 left, 1 right, 2 back
 	Layer requestLayer (int direction, Layer oldLayer) {
 		switch(direction) {
