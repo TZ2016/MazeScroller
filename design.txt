@@ -1,0 +1,49 @@
+class Driver
+	generate maze
+	specify global variable
+	listen to user's commands (-difficulty level)
+
+class Maze 
+	structure maze;
+	Layer requestLayer()   ->   Simulator
+
+
+class Scene
+	boolean vertical?
+	Set<Layer> layers;
+	void update (Layer newlayer)
+
+
+class Layer
+	Set<Obstacle> obs;
+	boolean turnLeft, turnRight;
+
+
+class Obstacle
+	int harm;
+	int size;
+	int position;
+
+
+class Simulator
+	Maze myMaze;
+	Scene curr;
+	Layer front;
+
+	while (true) {
+		curr.update(front);
+		front = maze.requestLayer();
+
+	}
+
+class Command 
+	turnleft?
+	turnright?
+	turnaround?
+	moveleft?
+	moveright?
+
+
+class GUI
+	a wonderful GUI!!
+	Command userinput() 
