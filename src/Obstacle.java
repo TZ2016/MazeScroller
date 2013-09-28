@@ -9,20 +9,11 @@ class Obstacle {
 	}
 
 	static Obstacle generateObstacle() {
-		return new Obstacle(generateInteger(1, 5), generateInteger(1, 5));
-	}
-
-	private static int generateInteger(int min, int max) {
-		int range = max - min + 1;
-		return (int) ((Math.random() * range) + min);
+		return new Obstacle(Util.generateInteger(1, 5), Util.generateInteger(1, 5));
 	}
 
 	public static void main(String[] args) {
 		for (int i = 0; i < 10; i++) 
 			println(generateInteger(1, 5));
-	}
-
-	public static void println(Object o) {
-		System.out.println(o);
 	}
 }
