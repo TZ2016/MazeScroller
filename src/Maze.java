@@ -1,7 +1,5 @@
 public class Maze {
-	private static int WIDTH = 20;
 	private static double mazeDensity = 0.15;
-	
 	
 	public final int width, height;
 	private MazeGen maze;
@@ -32,6 +30,9 @@ public class Maze {
 		if (currY == height-1) return false;
 		return maze.horizontalWall(currX, currY);
 	}
+	private boolean isOut() {
+		return currX == width-1 && currY == 0;
+	}
 	
 	// 0 ahead, -1 left, 1 right, 2 back
 	Layer requestLayer (int direction, Layer oldLayer) {
@@ -56,7 +57,11 @@ public class Maze {
 			System.err.println("invalid direction");
 			System.exit(1);
 		}
+		if (isOut()) {
+			throw new IllegalArgumentException("you are out!");
+		}
 		return new Layer(canTurnLeft(), canTurnRight(), oldLayer);
 	}
+	
 	
 }
