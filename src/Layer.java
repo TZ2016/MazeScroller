@@ -8,6 +8,6 @@ public class Layer {
 	}
 	
 	private boolean randomMazeDensity() {
-		
+		if (Math.random()) < Maze.
 	}
 }

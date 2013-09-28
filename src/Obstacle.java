@@ -11,9 +11,4 @@ class Obstacle {
 	static Obstacle generateObstacle() {
 		return new Obstacle(Util.generateInteger(1, 5), Util.generateInteger(1, 5));
 	}
-
-	public static void main(String[] args) {
-		for (int i = 0; i < 10; i++) 
-			Util.println(Util.generateInteger(1, 5));
-	}
 }
