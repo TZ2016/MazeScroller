@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class Scene {
 	private static final int HEIGHT = 20;
 	private boolean vertical;

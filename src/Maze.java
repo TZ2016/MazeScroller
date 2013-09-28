@@ -1,4 +1,7 @@
 
 public class Maze {
-	private static final int WIDTH = 20;
+	private static int WIDTH = 20;
+	private static int mazeDensity = 0.15;
+	
+	
 }
