@@ -1,5 +1,5 @@
 public class Maze {
-	private static final int WIDTH = 20, HEIGHT = 20;
+	private final int width, height;
 	private static double mazeDensity = 0.15;
 	private MazeGen maze;	
 	private int currX, currY;
@@ -56,10 +56,10 @@ public class Maze {
 	}
 	
 	int getWidth() {
-		return WIDTH;
+		return width;
 	}
 	int getHeight() {
-		return HEIGHT;
+		return height;
 	}	
 	double getDensity() {
 		return mazeDensity;
