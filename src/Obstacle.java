@@ -2,8 +2,6 @@ class Obstacle {
 
 	final int damage;
 	final int style; // a space holder for GUI
-
-	Obstacle(){}
 	
 	Obstacle (int dmg, int stl) {
 		style = stl;
