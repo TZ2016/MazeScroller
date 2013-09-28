@@ -4,15 +4,15 @@ import java.util.*;
 public class Driver {
 	static Maze maze;
 	static Scene scene;
+	static Layer buffer;
 	public static void main (String[] args) {
 
 		Scanner sc = new Scanner(System.in);
+		boolean legalargs = false;
 		
 		int dif = 0, w = 0, h = 0;
-
-		boolean legalargs = false;
 		while(!legalargs) {
-			System.out.print("Choose difficulti and maze size: \n[dif] [h] [w]\n");
+			System.out.print("Choose difficulti and maze size: \n");
 			try {
 				dif = sc.nextInt();
 				w = sc.nextInt();
@@ -25,18 +25,24 @@ public class Driver {
 		
 		// initializing
 		maze = new Maze(new MazeGen(w, h));
+		scene = maze.getScene();
+		buffer = maze.requestLayer(0, scene.getTop());
 		
+		String command = "";
 		while (true) {
-			String command = "";
 			sc = new Scanner(System.in);
 			try {
-				command = sc.nextLine();
+				command = sc.next();
 			} catch(Exception e) {
 				System.out.println("comand wrong");
 				System.exit(1);
 			}
-			if (command.equals("a")) {
+			switch(command) {
+			case "a":
 				System.out.println("I'm moving left!");
+				
+			case "d":
+				
 			}
 		}
 		
