@@ -374,7 +374,7 @@ public class MazeGen {
 		}
 
 		MazeGen maze = new MazeGen(x, y);
-		print(maze);
+		println(maze);
 		maze.diagnose();
 	}
 
@@ -382,5 +382,9 @@ public class MazeGen {
 	private static void println(Object o) {
 		if (debug)
 			System.out.println(o);
+	}
+	private static void print(Object o) {
+		if (debug)
+			System.out.print(o);
 	}
 }
