@@ -81,16 +81,33 @@ public class Maze {
 	}
 	
 	String debugInfo() {
-		String output = "======Maze debug info======\n";
+		String output = "";
+//		String output = "======Maze debug info======\n";
 		output += maze.toString() + "\n";
-		output += "Counter=" + counter + "\n";
-		output += "User is at X=" + currX + ",Y=" + currY + " facing " + userFacing;
-		output += "User can move to: ";
-		if (canTurn(Util.UP)) output += "up ";
-		if (canTurn(Util.DOWN)) output += "down ";
-		if (canTurn(Util.LEFT)) output += "left ";
-		if (canTurn(Util.RIGHT)) output += "right ";
+		output += "Facing ";
+		switch(userFacing) {
+		case 0:
+			output += "UP";
+			break;
+		case 1:
+			output += "LEFT";
+			break;
+		case 2:
+			output += "DOWN";
+			break;
+		case 3:
+			output += "RIGHT";
+			break;
+		}
 		output += "\n";
+//		output += "Counter=" + counter + "\n";
+//		output += "User is at X=" + currX + ",Y=" + currY + " facing " + userFacing;
+//		output += "User can move to: ";
+//		if (canTurn(Util.UP)) output += "up ";
+//		if (canTurn(Util.DOWN)) output += "down ";
+//		if (canTurn(Util.LEFT)) output += "left ";
+//		if (canTurn(Util.RIGHT)) output += "right ";
+//		output += "\n";
 		return output;
 	}
 	

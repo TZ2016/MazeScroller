@@ -12,8 +12,8 @@ public class Driver extends BasicGame {
 		super(MazeScroller);
 	}
 	
-	public final static int SCREEN_WIDTH = 800;
-	public final static int SCREEN_HEIGHT = 600;
+	public final static int SCREEN_WIDTH = 1280;
+	public final static int SCREEN_HEIGHT = 1100;
 	public final static int BORDER = 30;
 	
 	static Maze maze;
@@ -22,12 +22,14 @@ public class Driver extends BasicGame {
 	static Layer buffer;
 	static int interval;
 	
+	private boolean win;
+	private boolean lose;
 	private int timePassed;
 	private int key;
 	
 	//GUI
 	private static int unitWidth;
-	Image imgPlayer, imgObs, imgWall;
+	Image imgPlayer, imgObs, imgWall, imgWin, imgLose;
 	
 	private static void setUp() {
 		Scanner sc = new Scanner(System.in);
@@ -46,8 +48,8 @@ public class Driver extends BasicGame {
 		}
 		
 		// default value
-		Scene.DIMENSION = 5; // depends on user input
-		interval = 2000;
+		Scene.DIMENSION = 10; // depends on user input
+		interval = 250;
 		
 		// GUI
 		unitWidth = (SCREEN_WIDTH - 2*BORDER) / (Scene.DIMENSION + 2);
@@ -59,15 +61,18 @@ public class Driver extends BasicGame {
 		buffer = maze.requestLayer(scene.getTop());
 		
 		System.out.print(maze.debugInfo());
-		System.out.println("current scene: \n" + scene.toString());
-		System.out.println("current buffer: \n" + buffer.toString());
+//		System.out.println("current scene: \n" + scene.toString());
+//		System.out.println("current buffer: \n" + buffer.toString());
 	}
 	
 	public void init(GameContainer arg0) throws SlickException {
 		timePassed = 0;
+		win = lose = false;
 		imgPlayer = new Image("player.jpg");
 		imgObs = new Image("obstacle.jpg");
 		imgWall = new Image("obstacle.jpg");
+		imgWin = new Image("win.jpg");
+		imgLose = new Image("sad.jpg");
 	}
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
@@ -76,7 +81,7 @@ public class Driver extends BasicGame {
 			player.position--;
 			if (player.position == -1 ||
 				scene.getBottom().getObstacle(player.position) != null) {
-				System.out.println("stupid decision!");
+//				System.out.println("stupid decision!");
 				player.position++;
 			}
 			key = 0;
@@ -85,13 +90,21 @@ public class Driver extends BasicGame {
 			player.position++;
 			if (player.position == Scene.DIMENSION ||
 				scene.getBottom().getObstacle(player.position) != null) {
-				System.out.println("stupid decision!");
+//				System.out.println("stupid decision!");
 				player.position--;
 			}
 			key = 0;
 		}
 		if (timePassed > interval) {
-			performAction(key);
+			try {
+				performAction(key);
+			}
+			catch (IllegalArgumentException e) {
+				win = true;
+			}
+			catch (ArrayIndexOutOfBoundsException f) {
+				lose = true;
+			}
 			key = 0;
 			timePassed = 0;
 		}
@@ -123,18 +136,19 @@ public class Driver extends BasicGame {
 			Util.print(maze.debugInfo());
 		}
 
-		Util.println("current scene: \n" + scene.toString());
-		Util.println("current buffer: \n" + buffer.toString());
-		System.out.println("player is at " + player.position);
+//		Util.println("current scene: \n" + scene.toString());
+//		Util.println("current buffer: \n" + buffer.toString());
+//		System.out.println("player is at " + player.position);
 		
 		if (scene.getBottom().getObstacle(player.position) != null) {
-			throw new IllegalArgumentException("YOU DIE!");
+			throw new ArrayIndexOutOfBoundsException();
+//			System.exit(1);
 		}
 	}
 	
 	public void keyPressed(int key, char code) {
 		
-		System.out.println(key + " | " + code);
+//		System.out.println(key + " | " + code);
 		
 		if (!maze.canTurn(Util.LEFT) && key == 30) return; 
 		if (!maze.canTurn(Util.RIGHT) && key == 32) return; 
@@ -147,13 +161,24 @@ public class Driver extends BasicGame {
 	
 	@Override
 	public void render(GameContainer container, Graphics arg1) throws SlickException {
+		
+		if (win) {
+			imgWin.draw(BORDER, BORDER, scene.DIMENSION*unitWidth, scene.DIMENSION*unitWidth);
+			return;
+		}
+		if (lose) {
+			imgLose.draw(BORDER, BORDER, scene.DIMENSION*unitWidth, scene.DIMENSION*unitWidth);
+			return;
+		}
+		
 		int height = BORDER;
 		Iterator<Layer> iter = scene.layers();
 		while (iter.hasNext()) {
 			Layer curr = iter.next();
 			int width = BORDER;
 			// draw left wall
-			imgWall.draw(width, height, unitWidth, unitWidth);
+			if (!curr.left)
+				imgWall.draw(width, height, unitWidth, unitWidth);
 			width += unitWidth;
 			
 			// draw obstacles
@@ -165,7 +190,8 @@ public class Driver extends BasicGame {
 			}
 			
 			// draw right wall
-			imgWall.draw(width, height, unitWidth, unitWidth);
+			if (!curr.right)
+				imgWall.draw(width, height, unitWidth, unitWidth);
 
 			height += unitWidth;
 		}
