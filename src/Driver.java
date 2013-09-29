@@ -39,7 +39,7 @@ public class Driver extends BasicGame {
 		
 		// default value
 		Scene.DIMENSION = 5; // depends on user input
-		interval = 5000;
+		interval = 3000;
 		
 		// init
 		player = new Player(100, Scene.DIMENSION / 2);
@@ -58,8 +58,10 @@ public class Driver extends BasicGame {
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		timePassed += delta;
-		if (key == 203 || key == 204)
+		if (key == 203 || key == 205) {
 			performAction(key);
+			key = 0;
+		}
 		if (timePassed > interval) {
 			performAction(key);
 			key = 0;
@@ -89,26 +91,31 @@ public class Driver extends BasicGame {
 			buffer = maze.requestLayer(scene.getTop());
 			
 			Util.print(maze.debugInfo());
+			Util.println("current scene: \n" + scene.toString());
+			Util.println("current buffer: \n" + buffer.toString());
 			break;
 		case 32:
 			scene = maze.getScene(Util.RIGHT);
 			buffer = maze.requestLayer(scene.getTop());
 			Util.print(maze.debugInfo());
+			Util.println("current scene: \n" + scene.toString());
 			Util.println("current buffer: \n" + buffer.toString());
 			break;
 		case 31:
 			scene = maze.getScene(Util.DOWN);
 			buffer = maze.requestLayer(scene.getTop());
 			Util.print(maze.debugInfo());
+			Util.println("current scene: \n" + scene.toString());
+			Util.println("current buffer: \n" + buffer.toString());
 			break;
 		default: // go ahead
 			scene.updateNext(buffer);
 			buffer = maze.requestLayer(buffer);
 			Util.print(maze.debugInfo());
+			Util.println("current scene: \n" + scene.toString());
+			Util.println("current buffer: \n" + buffer.toString());
 		}
 
-		Util.println("current scene: \n" + scene.toString());
-		Util.println("current buffer: \n" + buffer.toString());
 		System.out.println("player is at " + player.position);
 		
 		if (scene.getBottom().getObstacle(player.position) != null) {
