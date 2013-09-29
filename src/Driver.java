@@ -25,7 +25,7 @@ public class Driver {
 		
 		// initializing
 		maze = new Maze(new MazeGen(w, h));
-		scene = maze.getScene();
+		scene = maze.getScene(Util.UP);
 		buffer = maze.requestLayer(scene.getTop());
 		
 		String command = "";
@@ -40,20 +40,20 @@ public class Driver {
 			switch(command) {
 			case "a":
 				System.out.println("I'm moving left!");
-				scene = maze.getScene(LEFT);
+				scene = maze.getScene(Util.LEFT);
 				buffer = maze.requestLayer(scene.getTop());
 				break;
 			case "d":
-				scene = maze.getScene(RIGHT);
+				scene = maze.getScene(Util.RIGHT);
 				buffer = maze.requestLayer(scene.getTop());
 				break;
-			case "s":
-				scene = maze.getScene(REVERT);
-				buffer = maze.requestLayer(scene.getTop());
-				break;
+//			case "s":
+//				scene = maze.getScene(REVERT);
+//				buffer = maze.requestLayer(scene.getTop());
+//				break;
 			default:
 				scene.updateNext(buffer);
-				buffer = maze.requestLayer(buffser);
+				buffer = maze.requestLayer(buffer);
 			}
 		}
 		

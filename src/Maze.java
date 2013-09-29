@@ -12,7 +12,7 @@ public class Maze {
 		width = m.horiz;
 		height = m.vert;
 		currX = 0;
-		currY = height-1;
+		currY = height;
 		counter = 0;
 	}
 	
@@ -69,13 +69,21 @@ public class Maze {
 
 	// default to going forward
 	Layer requestLayer (Layer oldLayer) {
-		// determine whether there is a way in the curr direction
 		if (!canTurn(Util.UP))
 			return new Layer();
 		counter++;
 		if (counter == Scene.DIMENSION)
 			updatePosition();
 		return new Layer(canTurn(Util.LEFT), canTurn(Util.RIGHT));
+	}
+	
+	String debugInfo() {
+		String output = "======Maze debug info======\n";
+		output += maze.toString() + "\n";
+		output += "User is at X=" + currX + ",Y=" + currY + 
+				", facing" + userFacing + "\n";
+		return output;
+		
 	}
 	
 	int getWidth() {
