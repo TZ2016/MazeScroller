@@ -31,6 +31,12 @@ public class Driver {
 		String command = "";
 		sc = new Scanner(System.in);
 		while (true) {
+			try {
+				command = sc.next();
+			} catch(Exception e) {
+				System.out.println("command wrong");
+				System.exit(1);
+			}
 			switch(command) {
 			case "a":
 				System.out.println("I'm moving left!");

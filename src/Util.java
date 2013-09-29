@@ -1,17 +1,13 @@
 import java.util.Scanner;
 
 
-<<<<<<< HEAD
 public class Util {
 	static Timer timer = new Timer();
 	static final int TIMEINTERVAL = 2000;
-=======
 	static final int UP = 0; 
 	static final int DOWN = 2; 
 	static final int LEFT = 1; 
 	static final int RIGHT = 3; 
-	
->>>>>>> ae179f087b5953988684bc512036669875239969
 	static void println(Object o) {
 		System.out.println(o);
 	}
