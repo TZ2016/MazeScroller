@@ -13,37 +13,32 @@ public class Maze {
 		height = m.vert;
 		currX = 0;
 		currY = height-1;
+		counter = 0;
 	}
 	
-	// userfacing
-	private boolean canTurnLeft() {
-		if (currX == 0) return false;
-		return maze.verticalWall(currX-1, currY);
-	}
-	private boolean canTurnRight() {
-		if (currX == width-1) return false;
-		return maze.verticalWall(currX, currY);
-	}
-	private boolean canGoAhead() {
-		if (currY == 0) return false;
-		return maze.horizontalWall(currX, currY-1);
-	}
-	private boolean canGoBack() {
-		if (currY == height-1) return false;
-		return maze.horizontalWall(currX, currY);
+	private boolean canTurn(int turningDirection) {
+		int absoluteDir = (turningDirection + userFacing) % 4;
+		switch(absoluteDir) {
+		case Util.UP:
+			if (currY == 0) return false;
+			return maze.horizontalWall(currX, currY-1);
+		case Util.DOWN:
+			if (currY == height-1) return false;
+			return maze.horizontalWall(currX, currY);
+		case Util.LEFT:
+			if (currX == 0) return false;
+			return maze.verticalWall(currX-1, currY);
+		case Util.RIGHT:
+			if (currX == width-1) return false;
+			return maze.verticalWall(currX, currY);
+		default:
+			System.err.println("impossible direction!");
+			return true;
+		}
 	}
 	private boolean isOut() {
 		return currX == width-1 && currY == 0;
 	}
-	
-	
-	Scene getScene(int turningDirection) {
-		counter = 0;
-		userFacing = (userFacing + turningDirection) % 4;
-		updatePosition();
-		return new Scene(canTurnLeft(), canTurnRight());
-	}
-	
 	private void updatePosition() {
 		switch(userFacing){
 		case Util.UP: // up
@@ -61,35 +56,26 @@ public class Maze {
 		default:
 			System.err.println("invalid direction");
 		}
+		if (isOut())
+			throw new IllegalArgumentException("You're out!");
 	}
 	
-	// 0 ahead, -1 left, 1 right, 2 back
+	Scene getScene(int turningDirection) {
+		counter = 0;
+		userFacing = (userFacing + turningDirection) % 4;
+		updatePosition();
+		return new Scene(canTurn(Util.LEFT), canTurn(Util.RIGHT));
+	}
+
+	// default to going forward
 	Layer requestLayer (Layer oldLayer) {
-		switch(direction) {
-		case 0:
-			if (!canGoAhead()) System.err.println("invalid ahead");
-			currY -= 1; // move up
-			break;
-		case -1:
-			if (!canTurnLeft()) System.err.println("invalid left");
-			currX -= 1; // move left
-			break;
-		case 1:
-			if (!canTurnRight()) System.err.println("invalid right");
-			currX += 1;
-			break;
-		case 2:
-			if (!canGoBack()) System.err.println("invalid back");
-			currY += 1;
-			break;
-		default:
-			System.err.println("invalid direction");
-			System.exit(1);
-		}
-		if (isOut()) {
-			throw new IllegalArgumentException("you are out!");
-		}
-		return new Layer(canTurnLeft(), canTurnRight(), oldLayer);
+		// determine whether there is a way in the curr direction
+		if (!canTurn(Util.UP))
+			return new Layer();
+		counter++;
+		if (counter == Scene.DIMENSION)
+			updatePosition();
+		return new Layer(canTurn(Util.LEFT), canTurn(Util.RIGHT));
 	}
 	
 	int getWidth() {

@@ -26,7 +26,7 @@ public class Driver {
 		// initializing
 		maze = new Maze(new MazeGen(w, h));
 		scene = maze.getScene();
-		buffer = maze.requestLayer(0, scene.getTop());
+		buffer = maze.requestLayer(scene.getTop());
 		
 		String command = "";
 		while (true) {
