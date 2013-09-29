@@ -83,7 +83,6 @@ public class Maze {
 		output += "User is at X = " + currX + ", Y = " + currY + 
 				", facing " + userFacing + "\n";
 		return output;
-		
 	}
 	
 	int getWidth() {

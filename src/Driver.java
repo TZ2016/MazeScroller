@@ -4,7 +4,7 @@ public class Driver {
 	static Maze maze;
 	static Scene scene;
 	static Layer buffer;
-	public static void main (String[] args) {
+	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
 		boolean legalargs = false;
