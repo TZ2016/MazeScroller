@@ -41,7 +41,7 @@ public class Layer {
 				openings.add(i);
 				count++;
 			}
-		return openings.get(Util.generateInteger(0, count));
+		return openings.get(Util.generateInteger(0, count-1));
 	}
 
 	private boolean underMazeDensity() {
