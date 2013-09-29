@@ -58,6 +58,8 @@ public class Driver extends BasicGame {
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		timePassed += delta;
+		if (key == 203 || key == 204)
+			performAction(key);
 		if (timePassed > interval) {
 			performAction(key);
 			key = 0;
@@ -114,10 +116,7 @@ public class Driver extends BasicGame {
 		}
 	}
 	
-	public void keyPressed(int key, char code) {
-		
-		System.out.println(key + " | " + code);
-		
+	public void keyPressed(int key, char code) {		
 		if (!maze.canTurn(Util.LEFT) && key == 30) return; 
 		if (!maze.canTurn(Util.RIGHT) && key == 32) return; 
 		if (!maze.canTurn(Util.DOWN) && key == 31) return; 

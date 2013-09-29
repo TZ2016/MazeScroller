@@ -29,8 +29,6 @@ public class Scene {
 		while (iter.hasNext()) {
 			rtn += iter.next().toString() + "\n";
 		}
-//		for (Layer layer : scene) 
-//			rtn += layer.toString() + "\n";
 		return rtn;
 	}
 }
