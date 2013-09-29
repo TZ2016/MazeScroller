@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Layer {
 	final boolean left, right;
-	private Obstacle[] layer = new Obstacle[Driver.maze.getWidth()];
+	private Obstacle[] layer = new Obstacle[Scene.DIMENSION];
 	private Layer prevLayer;
 
 	Layer(boolean l, boolean r, Layer oldLayer) {
@@ -14,7 +14,7 @@ public class Layer {
 	Layer(boolean l, boolean r) {
 		left = l;
 		right = r;
-		layer = new Obstacle[Driver.maze.getWidth()];
+		layer = new Obstacle[Scene.DIMENSION];
 	}
 	Layer() {
 		left = right = false;
@@ -23,20 +23,20 @@ public class Layer {
 	void generateRandom() {
 		// create random obstacles for this layer, leaving at least one of the previous layer's opening also open
 		int guaranteedOpening = prevLayer.randomOpening();
-		for (int i = 0; i < Driver.maze.getWidth(); i++)
+		for (int i = 0; i < Scene.DIMENSION; i++)
 			if (underMazeDensity() && i != guaranteedOpening)
 				setObstacle(i, Obstacle.generateObstacle());
 	}
 	
 	void generateWall() {
-		for (int i = 0; i < Driver.maze.getWidth(); i++)
+		for (int i = 0; i < Scene.DIMENSION; i++)
 			setObstacle(i, new Obstacle(Integer.MAX_VALUE, Obstacle.WALL));
 	}
 
 	private int randomOpening() {
 		ArrayList<Integer> openings = new ArrayList<Integer>();
 		int count = 0;
-		for (int i = 0; i < Driver.maze.getWidth(); i++) 
+		for (int i = 0; i < Scene.DIMENSION; i++) 
 			if (getObstacle(i) == null) {
 				openings.add(i);
 				count++;
