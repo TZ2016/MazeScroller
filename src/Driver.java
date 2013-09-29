@@ -1,9 +1,9 @@
 import java.util.*;
-import org.newdawn.slick.*;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Driver extends BasicGame {	
@@ -11,6 +11,10 @@ public class Driver extends BasicGame {
 	public Driver(String MazeScroller) {
 		super(MazeScroller);
 	}
+	
+	public final static int SCREEN_WIDTH = 800;
+	public final static int SCREEN_HEIGHT = 600;
+	public final static int BORDER = 30;
 	
 	static Maze maze;
 	static Player player;
@@ -20,6 +24,10 @@ public class Driver extends BasicGame {
 	
 	private int timePassed;
 	private int key;
+	
+	//GUI
+	private static int unitWidth;
+	Image imgPlayer, imgObs, imgWall;
 	
 	private static void setUp() {
 		Scanner sc = new Scanner(System.in);
@@ -41,6 +49,9 @@ public class Driver extends BasicGame {
 		Scene.DIMENSION = 5; // depends on user input
 		interval = 5000;
 		
+		// GUI
+		unitWidth = (SCREEN_WIDTH - 2*BORDER) / (Scene.DIMENSION + 2);
+		
 		// init
 		player = new Player(100, Scene.DIMENSION / 2);
 		maze = new Maze(new MazeGen(w, h));
@@ -54,6 +65,9 @@ public class Driver extends BasicGame {
 	
 	public void init(GameContainer arg0) throws SlickException {
 		timePassed = 0;
+		imgPlayer = new Image("res/player.jpg");
+		imgObs = new Image("res/obstacle.jpg");
+		imgWall = new Image("res/wall.jpg");
 	}
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
@@ -129,14 +143,14 @@ public class Driver extends BasicGame {
 	
 	@Override
 	public void render(GameContainer container, Graphics arg1) throws SlickException {
-		
+		for (int height = 0; )
 	}
 	
 	public static void main (String[] args) throws SlickException {
 		setUp();
 		
 		AppGameContainer app = new AppGameContainer(new Driver("haha"));
-		app.setDisplayMode(800, 600, false);
+		app.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
 		app.setVSync(true);
 		app.setMaximumLogicUpdateInterval(500);
 		app.setMinimumLogicUpdateInterval(100);

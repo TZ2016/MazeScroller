@@ -23,6 +23,10 @@ public class Scene {
 		return scene.getFirst();
 	}
 	
+	Iterator<Layer> layers () {
+		return scene.descendingIterator();
+	}
+	
 	public String toString() {
 		String rtn = "";
 		Iterator<Layer> iter = scene.descendingIterator();
