@@ -9,6 +9,7 @@ public class Maze {
 	
 	public Maze (MazeGen m) {
 		maze = m;
+		m.myMaze = this;
 		width = m.horiz;
 		height = m.vert;
 		currX = 0;
@@ -93,12 +94,14 @@ public class Maze {
 		return output;
 	}
 	
-//	int getWidth() {
-//		return width;
-//	}
-//	int getHeight() {
-//		return height;
-//	}	
+	int getX() {
+		return currX;
+	}
+	
+	int getY() {
+		return currY;
+	}
+	
 	double getDensity() {
 		return mazeDensity;
 	}
