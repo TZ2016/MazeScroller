@@ -1,8 +1,14 @@
 import java.util.*;
 import org.newdawn.slick.*;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
 public class Driver extends BasicGame {	
-	private Image player;
+	private Image playerImg;
+	private static Player player;
 
 	public Driver(String MazeScroller) {
 		super(MazeScroller);
@@ -11,14 +17,55 @@ public class Driver extends BasicGame {
 	static Maze maze;
 	static Scene scene;
 	static Layer buffer;
-	public static void main(String[] args) throws SlickException {
-		AppGameContainer appContainer = new AppGameContainer(new Driver("MazeScroller"));
-		appContainer.setDisplayMode(800, 600, false);
-		appContainer.start();
-		
+
+//	@Override
+//	public void init(GameContainer arg0) throws SlickException {
+//		player = new Image("Player.jpg");
+//		Scanner sc = new Scanner(System.in);
+//		boolean legalargs = false;
+//		int dif = 0, w = 0, h = 0;
+//		while(!legalargs) {
+//			Util.print("Choose difficulty, max width, max height\n");
+//			try {
+//				dif = sc.nextInt();
+//				w = sc.nextInt();
+//				h = sc.nextInt();
+//			} catch(Exception e) {
+//			} 
+//			if (w > 0 && h > 0) 
+//				legalargs = true;
+//		}
+//
+//		Scene.DIMENSION = 5; // depends on user input
+//		maze = new Maze(new MazeGen(w, h));
+//		scene = maze.getScene(Util.UP);
+//		buffer = maze.requestLayer(scene.getTop());
+//
+//
+//		Util.print(maze.debugInfo());
+//		Util.println("current scene: \n" + scene.toString());
+//		Util.println("current buffer: \n" + buffer.toString());
+//	}
+//	@Override
+//	public void update(GameContainer container, int delta) throws SlickException {
+//	}
+//
+//	public void keyPressed(int key, char code) {
+//		Util.println(key + " " + code);
+//	}
+//
+//	@Override
+//	public void render(GameContainer container, Graphics arg1) throws SlickException {
+//		
+//	}
+
+	public static void main (String[] args) throws SlickException {
+
+//		AppGameContainer app = new AppGameContainer(new Driver("MazeScroller"));
+//		app.setDisplayMode(500, 500, false);
+//		app.start();
 		Scanner sc = new Scanner(System.in);
 		boolean legalargs = false;
-
 		int dif = 0, w = 0, h = 0;
 		while(!legalargs) {
 			Util.print("Choose difficulty, max width, max height\n");
@@ -32,15 +79,14 @@ public class Driver extends BasicGame {
 				legalargs = true;
 		}
 
-		// initializing
-		maze = new Maze(new MazeGen(w, h));
 		Scene.DIMENSION = 5; // depends on user input
-
+		player = new Player(100); // player MUST be constructed after setting scene.DIMENSION
+		maze = new Maze(new MazeGen(w, h));
 		scene = maze.getScene(Util.UP);
+		buffer = maze.requestLayer(scene.getTop());
+
 		Util.print(maze.debugInfo());
 		Util.println("current scene: \n" + scene.toString());
-
-		buffer = maze.requestLayer(scene.getTop());
 		Util.println("current buffer: \n" + buffer.toString());
 
 		String command = "";
@@ -84,17 +130,5 @@ public class Driver extends BasicGame {
 				Util.println("current buffer: \n" + buffer.toString());
 			}
 		}
-	}
-	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
-		// TODO Auto-generated method stub
-
-	}
-	@Override
-	public void init(GameContainer arg0) throws SlickException {
-		player = new Image("player.jpg");
-	}
-	@Override
-	public void update(GameContainer arg0, int arg1) throws SlickException {
 	}
 }

@@ -1,6 +1,6 @@
 public class Maze {
 	private final int width, height;
-	private static double mazeDensity = 0.5;
+	private static double mazeDensity = 0.45;
 	private MazeGen maze;	
 	
 	private int counter;
@@ -83,7 +83,7 @@ public class Maze {
 		String output = "======Maze debug info======\n";
 		output += maze.toString() + "\n";
 		output += "Counter=" + counter + "\n";
-		output += "User can move to: ";
+		output += "User is at (" + currX + ", " + currY + "); can move to: ";
 		if (canTurn(Util.UP)) output += "up ";
 		if (canTurn(Util.DOWN)) output += "down ";
 		if (canTurn(Util.LEFT)) output += "left ";
