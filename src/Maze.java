@@ -82,17 +82,13 @@ public class Maze {
 	String debugInfo() {
 		String output = "======Maze debug info======\n";
 		output += maze.toString() + "\n";
-		output += "User is at X=" + currX + ",Y=" + currY + 
-				", facing" + userFacing + "\n";
-		output += "counter=" + counter + "\n";
+		output += "Counter=" + counter + "\n";
 		output += "User can move to: ";
 		if (canTurn(Util.UP)) output += "up ";
 		if (canTurn(Util.DOWN)) output += "down ";
 		if (canTurn(Util.LEFT)) output += "left ";
 		if (canTurn(Util.RIGHT)) output += "right ";
 		output += "\n";
-		output += "User is at X = " + currX + ", Y = " + currY + 
-				", facing " + userFacing + "\n";
 		return output;
 	}
 	

@@ -1,7 +1,9 @@
 import java.util.*;
 import org.newdawn.slick.*;
 
-public class Driver extends BasicGame {
+public class Driver extends BasicGame {	
+	private Image player = new Image("player.jpg");
+	
 	public Driver(String MazeScroller) {
 		super(MazeScroller);
 	}
@@ -16,7 +18,7 @@ public class Driver extends BasicGame {
 
 		int dif = 0, w = 0, h = 0;
 		while(!legalargs) {
-			System.out.print("Choose difficulti and maze size: \n");
+			System.out.print("Choose difficulty, max width, max height\n");
 			try {
 				dif = sc.nextInt();
 				w = sc.nextInt();
@@ -95,6 +97,4 @@ public class Driver extends BasicGame {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	private Image player = new Image("player.jpg");
 }
