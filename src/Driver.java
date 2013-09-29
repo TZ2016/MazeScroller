@@ -24,8 +24,15 @@ public class Driver {
 
 		// initializing
 		maze = new Maze(new MazeGen(w, h));
+		Scene.DIMENSION = 5; // depends on user input
+		
 		scene = maze.getScene(Util.UP);
+		System.out.print(maze.debugInfo());
+		System.out.println("current scene: \n" + scene.toString());
+		
 		buffer = maze.requestLayer(scene.getTop());
+		System.out.println("current buffer: \n" + buffer.toString());
+		
 		String command = "";
 		sc = new Scanner(System.in);
 		while (true) {
@@ -37,21 +44,34 @@ public class Driver {
 			}
 			switch(command) {
 			case "a":
-				System.out.println("I'm moving left!");
+				System.out.println("moving left!");
 				scene = maze.getScene(Util.LEFT);
 				buffer = maze.requestLayer(scene.getTop());
+				
+				System.out.print(maze.debugInfo());
+				System.out.println("current scene: \n" + scene.toString());
+				System.out.println("current buffer: \n" + buffer.toString());
 				break;
 			case "d":
 				scene = maze.getScene(Util.RIGHT);
 				buffer = maze.requestLayer(scene.getTop());
+				System.out.print(maze.debugInfo());
+				System.out.println("current scene: \n" + scene.toString());
+				System.out.println("current buffer: \n" + buffer.toString());
 				break;
-//			case "s":
-//				scene = maze.getScene(REVERT);
-//				buffer = maze.requestLayer(scene.getTop());
-//				break;
+			case "s":
+				scene = maze.getScene(Util.DOWN);
+				buffer = maze.requestLayer(scene.getTop());
+				System.out.print(maze.debugInfo());
+				System.out.println("current scene: \n" + scene.toString());
+				System.out.println("current buffer: \n" + buffer.toString());
+				break;
 			default:
 				scene.updateNext(buffer);
 				buffer = maze.requestLayer(buffer);
+				System.out.print(maze.debugInfo());
+				System.out.println("current scene: \n" + scene.toString());
+				System.out.println("current buffer: \n" + buffer.toString());
 			}
 		}
 	}
