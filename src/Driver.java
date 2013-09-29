@@ -53,7 +53,7 @@ public class Driver {
 				break;
 			default:
 				scene.updateNext(buffer);
-				buffer = maze.requestLayer(buffer);
+				buffer = maze.requestLayer(buffser);
 			}
 		}
 		

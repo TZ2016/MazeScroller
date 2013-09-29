@@ -2,7 +2,10 @@ public class Maze {
 	private final int width, height;
 	private static double mazeDensity = 0.15;
 	private MazeGen maze;	
+	
+	private int counter;
 	private int currX, currY;
+	private int userFacing;
 	
 	public Maze (MazeGen m) {
 		maze = m;
@@ -12,6 +15,7 @@ public class Maze {
 		currY = height-1;
 	}
 	
+	// userfacing
 	private boolean canTurnLeft() {
 		if (currX == 0) return false;
 		return maze.verticalWall(currX-1, currY);
@@ -32,12 +36,35 @@ public class Maze {
 		return currX == width-1 && currY == 0;
 	}
 	
-	Scene getScene() {
-		return new Scene(true);
+	
+	Scene getScene(int turningDirection) {
+		counter = 0;
+		userFacing = (userFacing + turningDirection) % 4;
+		updatePosition();
+		return new Scene(canTurnLeft(), canTurnRight());
+	}
+	
+	private void updatePosition() {
+		switch(userFacing){
+		case Util.UP: // up
+			currY--;
+			break;
+		case Util.DOWN: // down
+			currY++;
+			break;
+		case Util.LEFT: // left
+			currX--;
+			break;
+		case Util.RIGHT: // right
+			currX++;
+			break;
+		default:
+			System.err.println("invalid direction");
+		}
 	}
 	
 	// 0 ahead, -1 left, 1 right, 2 back
-	Layer requestLayer (int direction, Layer oldLayer) {
+	Layer requestLayer (Layer oldLayer) {
 		switch(direction) {
 		case 0:
 			if (!canGoAhead()) System.err.println("invalid ahead");
