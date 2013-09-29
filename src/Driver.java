@@ -3,15 +3,18 @@ import org.newdawn.slick.*;
 
 public class Driver extends BasicGame {	
 	private Image player;
-	
+
 	public Driver(String MazeScroller) {
 		super(MazeScroller);
 	}
-	
+
 	static Maze maze;
 	static Scene scene;
 	static Layer buffer;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SlickException {
+		AppGameContainer appContainer = new AppGameContainer(new Driver("MazeScroller"));
+		appContainer.setDisplayMode(800, 600, false);
+		appContainer.start();
 		
 		Scanner sc = new Scanner(System.in);
 		boolean legalargs = false;
@@ -32,14 +35,14 @@ public class Driver extends BasicGame {
 		// initializing
 		maze = new Maze(new MazeGen(w, h));
 		Scene.DIMENSION = 5; // depends on user input
-		
+
 		scene = maze.getScene(Util.UP);
 		Util.print(maze.debugInfo());
 		Util.println("current scene: \n" + scene.toString());
-		
+
 		buffer = maze.requestLayer(scene.getTop());
 		Util.println("current buffer: \n" + buffer.toString());
-		
+
 		String command = "";
 		sc = new Scanner(System.in);
 		while (true) {
@@ -54,7 +57,7 @@ public class Driver extends BasicGame {
 				Util.println("moving left!");
 				scene = maze.getScene(Util.LEFT);
 				buffer = maze.requestLayer(scene.getTop());
-				
+
 				Util.print(maze.debugInfo());
 				Util.println("current scene: \n" + scene.toString());
 				Util.println("current buffer: \n" + buffer.toString());
@@ -85,7 +88,7 @@ public class Driver extends BasicGame {
 	@Override
 	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
@@ -93,6 +96,5 @@ public class Driver extends BasicGame {
 	}
 	@Override
 	public void update(GameContainer arg0, int arg1) throws SlickException {
-		player.draw(200, 200);
 	}
 }
