@@ -65,7 +65,7 @@ public class Layer {
 				first = false;
 			else 
 				rtn += " ";
-			rtn += o;
+			rtn += o == null ? "0" : o;
 		}
 		return rtn;
 	}

@@ -1,20 +1,21 @@
 import java.util.*;
-
+import org.newdawn.slick.*;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-public class Driver extends BasicGame {
+public class Driver extends BasicGame {	
+	private Image player;
+	
+	public Driver(String MazeScroller) {
+		super(MazeScroller);
+	}
 	
 	static Maze maze;
 	static Scene scene;
 	static Layer buffer;
-	
-	public Driver(String title) {
-		super(title);
-	}
 	
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
@@ -22,7 +23,7 @@ public class Driver extends BasicGame {
 		boolean legalargs = false;
 		int dif = 0, w = 0, h = 0;
 		while(!legalargs) {
-			System.out.print("Choose difficulti and maze size: \n");
+			Util.print("Choose difficulty, max width, max height\n");
 			try {
 				dif = sc.nextInt();
 				w = sc.nextInt();
@@ -70,39 +71,39 @@ public class Driver extends BasicGame {
 			try {
 				command = sc.next();
 			} catch(Exception e) {
-				System.out.println("command wrong");
+				Util.println("command wrong");
 				System.exit(1);
 			}
 			switch(command) {
 			case "a":
-				System.out.println("moving left!");
+				Util.println("moving left!");
 				scene = maze.getScene(Util.LEFT);
 				buffer = maze.requestLayer(scene.getTop());
 				
-				System.out.print(maze.debugInfo());
-				System.out.println("current scene: \n" + scene.toString());
-				System.out.println("current buffer: \n" + buffer.toString());
+				Util.print(maze.debugInfo());
+				Util.println("current scene: \n" + scene.toString());
+				Util.println("current buffer: \n" + buffer.toString());
 				break;
 			case "d":
 				scene = maze.getScene(Util.RIGHT);
 				buffer = maze.requestLayer(scene.getTop());
-				System.out.print(maze.debugInfo());
-				System.out.println("current scene: \n" + scene.toString());
-				System.out.println("current buffer: \n" + buffer.toString());
+				Util.print(maze.debugInfo());
+				Util.println("current scene: \n" + scene.toString());
+				Util.println("current buffer: \n" + buffer.toString());
 				break;
 			case "s":
 				scene = maze.getScene(Util.DOWN);
 				buffer = maze.requestLayer(scene.getTop());
-				System.out.print(maze.debugInfo());
-				System.out.println("current scene: \n" + scene.toString());
-				System.out.println("current buffer: \n" + buffer.toString());
+				Util.print(maze.debugInfo());
+				Util.println("current scene: \n" + scene.toString());
+				Util.println("current buffer: \n" + buffer.toString());
 				break;
 			default:
 				scene.updateNext(buffer);
 				buffer = maze.requestLayer(buffer);
-				System.out.print(maze.debugInfo());
-				System.out.println("current scene: \n" + scene.toString());
-				System.out.println("current buffer: \n" + buffer.toString());
+				Util.print(maze.debugInfo());
+				Util.println("current scene: \n" + scene.toString());
+				Util.println("current buffer: \n" + buffer.toString());
 			}
 		}
 	}
