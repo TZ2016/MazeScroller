@@ -24,6 +24,11 @@ public class Layer {
 			if (underMazeDensity() && i != guaranteedOpening)
 				setObstacle(i, Obstacle.generateObstacle());
 	}
+	
+	void generateWall() {
+		for (int i = 0; i < Driver.maze.getWidth(); i++)
+			setObstacle(i, new Obstacle(Integer.MAX_VALUE, Obstacle.WALL));
+	}
 
 	private int randomOpening() {
 		ArrayList<Integer> openings = new ArrayList<Integer>();
