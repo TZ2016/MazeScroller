@@ -1,7 +1,8 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Scene {
-	static int DIMENSION;
+	static int DIMENSION = 0;
 	private LinkedList<Layer> scene = new LinkedList<Layer>();
 	
 	Scene(boolean left, boolean right) {
@@ -18,10 +19,18 @@ public class Scene {
 		return scene.getLast();
 	}
 	
+	Layer getBottom() {
+		return scene.getFirst();
+	}
+	
 	public String toString() {
 		String rtn = "";
-		for (Layer layer : scene) 
-			rtn += layer.toString() + "\n";
+		Iterator<Layer> iter = scene.descendingIterator();
+		while (iter.hasNext()) {
+			rtn += iter.next().toString() + "\n";
+		}
+//		for (Layer layer : scene) 
+//			rtn += layer.toString() + "\n";
 		return rtn;
 	}
 }
