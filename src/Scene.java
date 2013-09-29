@@ -1,15 +1,13 @@
 import java.util.ArrayList;
 
 public class Scene {
-	private static final int HEIGHT = Driver.maze.getWidth();
-	private boolean vertical;
+	static final int HEIGHT = 20;
 	private ArrayList<Layer> scene = new ArrayList<Layer>();
 	private Layer next;
 	
-	Scene(boolean vert) {
+	Scene(boolean left, boolean right) {
 		for (int i = 0; i < HEIGHT; i++)
-			scene.add(new Layer());
-		vertical = vert;
+			scene.add(new Layer(left, right));
 	}
 	
 	void updateNext(Layer layer) {
@@ -19,6 +17,6 @@ public class Scene {
 	}
 	
 	Layer getTop() {
-		return scene.get(HEIGHT-1);
+		return scene.get(HEIGHT - 1);
 	}
 }

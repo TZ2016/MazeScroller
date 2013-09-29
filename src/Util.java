@@ -1,11 +1,17 @@
+import java.util.Scanner;
 
+
+<<<<<<< HEAD
 public class Util {
-
+	static Timer timer = new Timer();
+	static final int TIMEINTERVAL = 2000;
+=======
 	static final int UP = 0; 
 	static final int DOWN = 2; 
 	static final int LEFT = 1; 
 	static final int RIGHT = 3; 
 	
+>>>>>>> ae179f087b5953988684bc512036669875239969
 	static void println(Object o) {
 		System.out.println(o);
 	}
@@ -16,7 +22,26 @@ public class Util {
 	}
 
 	public static void main(String[] args) {
-		for (int i = 0; i < 10; i++) 
-			println(generateInteger(1, 5));
+		String asdf = timedCommand();
+		System.out.println(asdf);
+	}
+	
+	static String timedCommand() {
+		Scanner sc = new Scanner(System.in);
+		String rtn = null;
+		timer.reset();
+		timer.start();
+		while (timer.elapsed() < TIMEINTERVAL) {
+			try {
+				rtn = sc.next();
+				if (timer.elapsed() >= TIMEINTERVAL)
+					continue;
+			} catch(Exception e) {
+				System.out.println("command wrong");
+				System.exit(1);
+			}
+		}
+		timer.stop();
+		return rtn;
 	}
 }
