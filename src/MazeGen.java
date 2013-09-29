@@ -10,372 +10,377 @@ import set.*;
 
 public class MazeGen {
 
-  // Horizontal and vertical dimensions of the maze.
-  protected int horiz;
-  protected int vert;
-  // Horizontal and vertical interior walls; each is true if the wall exists.
-  protected boolean[][] hWalls;
-  protected boolean[][] vWalls;
+	// Horizontal and vertical dimensions of the maze.
+	protected int horiz;
+	protected int vert;
+	// Horizontal and vertical interior walls; each is true if the wall exists.
+	protected boolean[][] hWalls;
+	protected boolean[][] vWalls;
 
-  // Object for generating random numbers.
-  private static Random random;
+	// Object for generating random numbers.
+	private static Random random;
 
-  // Constants used in depth-first search (which checks for cycles in the
-  // maze).
-  private static final int STARTHERE = 0;
-  private static final int FROMLEFT = 1;
-  private static final int FROMRIGHT = 2;
-  private static final int FROMABOVE = 3;
-  private static final int FROMBELOW = 4;
+	// Constants used in depth-first search (which checks for cycles in the
+	// maze).
+	private static final int STARTHERE = 0;
+	private static final int FROMLEFT = 1;
+	private static final int FROMRIGHT = 2;
+	private static final int FROMABOVE = 3;
+	private static final int FROMBELOW = 4;
 
-  /**
-   *  Maze() creates a rectangular maze having "horizontalSize" cells in the
-   *  horizontal direction, and "verticalSize" cells in the vertical direction.
-   *  There is a path between any two cells of the maze.  A disjoint set data
-   *  structure is used to ensure that there is only one path between any two
-   *  cells.
-   **/
-  public MazeGen(int horizontalSize, int verticalSize) {
-    int i, j;
+	/**
+	 *  Maze() creates a rectangular maze having "horizontalSize" cells in the
+	 *  horizontal direction, and "verticalSize" cells in the vertical direction.
+	 *  There is a path between any two cells of the maze.  A disjoint set data
+	 *  structure is used to ensure that there is only one path between any two
+	 *  cells.
+	 **/
+	public MazeGen(int horizontalSize, int verticalSize) {
+		int i, j;
 
-    horiz = horizontalSize;
-    vert = verticalSize;
-    if ((horiz < 1) || (vert < 1) || ((horiz == 1) && (vert == 1))) {
-      return;                                    // There are no interior walls
-    }
+		horiz = horizontalSize;
+		vert = verticalSize;
+		if ((horiz < 1) || (vert < 1) || ((horiz == 1) && (vert == 1))) {
+			return;                                    // There are no interior walls
+		}
 
-    // Create all of the horizontal interior walls.  Initially, every
-    // horizontal wall exists; they will be removed later by the maze
-    // generation algorithm.
-    if (vert > 1) {
-      hWalls = new boolean[horiz][vert - 1];
-      for (j = 0; j < vert - 1; j++) {
-        for (i = 0; i < horiz; i++) {
-          hWalls[i][j] = true;
-        }
-      }
-    }
-    // Create all of the vertical interior walls.
-    if (horiz > 1) {
-      vWalls = new boolean[horiz - 1][vert];
-      for (i = 0; i < horiz - 1; i++) {
-        for (j = 0; j < vert; j++) {
-          vWalls[i][j] = true;
-        }
-      }
-    }
-
-
-
-    /**
-     * Fill in the rest of this method.  You should go through all the walls of
-     * the maze in random order, and remove any wall whose removal will not
-     * create a cycle.  Use the implementation of disjoint sets provided in the
-     * set package to avoid creating any cycles.
-     *
-     * Note the method randInt() further below, which generates a random
-     * integer.  randInt() generates different numbers every time the program
-     * is run, so that you can make lots of different mazes.
-     **/
+		// Create all of the horizontal interior walls.  Initially, every
+		// horizontal wall exists; they will be removed later by the maze
+		// generation algorithm.
+		if (vert > 1) {
+			hWalls = new boolean[horiz][vert - 1];
+			for (j = 0; j < vert - 1; j++) {
+				for (i = 0; i < horiz; i++) {
+					hWalls[i][j] = true;
+				}
+			}
+		}
+		// Create all of the vertical interior walls.
+		if (horiz > 1) {
+			vWalls = new boolean[horiz - 1][vert];
+			for (i = 0; i < horiz - 1; i++) {
+				for (j = 0; j < vert; j++) {
+					vWalls[i][j] = true;
+				}
+			}
+		}
 
 
-    // Fill the Array walls with walls
-    int numOfWall = 2 * horiz * vert - vert - horiz;
-    int[][] walls = new int[numOfWall][3];
-    int wallIndex = 0;
-    int x, y;
-    
-    for (x = 0; x < horiz-1; x++) { // fill in common area
-	for (y = 0; y < vert-1; y++) {  
-	    walls[wallIndex][0] = 0;  // 0 means horiz wall
-	    walls[wallIndex][1] = x; 
-	    walls[wallIndex][2] = y;
-	    wallIndex++;
-	    walls[wallIndex][0] = 1;  // 1 means vert wall
-	    walls[wallIndex][1] = x; 
-	    walls[wallIndex][2] = y;
-	    wallIndex++;
+
+		/**
+		 * Fill in the rest of this method.  You should go through all the walls of
+		 * the maze in random order, and remove any wall whose removal will not
+		 * create a cycle.  Use the implementation of disjoint sets provided in the
+		 * set package to avoid creating any cycles.
+		 *
+		 * Note the method randInt() further below, which generates a random
+		 * integer.  randInt() generates different numbers every time the program
+		 * is run, so that you can make lots of different mazes.
+		 **/
+
+
+		// Fill the Array walls with walls
+		int numOfWall = 2 * horiz * vert - vert - horiz;
+		int[][] walls = new int[numOfWall][3];
+		int wallIndex = 0;
+		int x, y;
+
+		for (x = 0; x < horiz-1; x++) { // fill in common area
+			for (y = 0; y < vert-1; y++) {  
+				walls[wallIndex][0] = 0;  // 0 means horiz wall
+				walls[wallIndex][1] = x; 
+				walls[wallIndex][2] = y;
+				wallIndex++;
+				walls[wallIndex][0] = 1;  // 1 means vert wall
+				walls[wallIndex][1] = x; 
+				walls[wallIndex][2] = y;
+				wallIndex++;
+			}
+		}
+		for (x = 0; x < horiz-1; x++) { // fill in bottom line
+			walls[wallIndex][0] = 1;  
+			walls[wallIndex][1] = x; 
+			walls[wallIndex][2] = vert-1;
+			wallIndex++;
+		}
+		for (y = 0; y < vert-1; y++) { // fill in right-most column
+			walls[wallIndex][0] = 0;  
+			walls[wallIndex][1] = horiz-1; 
+			walls[wallIndex][2] = y;
+			wallIndex++;
+		}    
+
+
+		// Random permutation of walls in Array walls
+		int randomNum;
+		int[] temp;
+		for (int w = numOfWall; w > 0; w--) {
+			randomNum = randInt(w);
+			temp = walls[randomNum];
+			walls[randomNum] = walls[w-1];
+			walls[w-1] = temp;
+		}
+
+
+		for (int m = 0; m < numOfWall; m++) {
+			for (int n = 0; n < 3; n++) {
+				print(" | " + walls[m][n]);
+			}
+			print(" |\n");
+		}
+
+		// disjoint sets operations
+		int numOfCell = horiz * vert;  // i + j * horiz = k
+		DisjointSets sets = new DisjointSets(numOfCell);
+
+		int cell1X, cell1Y;
+		int cell2X, cell2Y;
+		int root1, root2;
+		for (int k = 0; k < numOfWall; k++) {
+			// Determine which two cells
+			cell1X = walls[k][1];
+			cell1Y = walls[k][2];
+			if (walls[k][0] == 0) { // horiz
+				cell2X = cell1X;
+				cell2Y = cell1Y + 1;
+			} else { // vert
+				cell2X = cell1X + 1;
+				cell2Y = cell1Y;
+			}
+
+			// Determine whether these two cells are in the same set
+			root1 = sets.find(cell1X + cell1Y * horiz);
+			root2 = sets.find(cell2X + cell2Y * horiz);
+			println(k + ": " + cell1X + " " + cell1Y + " -> " + root1 + " | " + cell2X + " " + cell2Y + " -> " + root2);
+			if (root1 != root2) {
+				sets.union(root1, root2);
+				if (walls[k][0] == 0) hWalls[cell1X][cell1Y] = false;
+				if (walls[k][0] == 1) vWalls[cell1X][cell1Y] = false;
+			}
+		}
+
+
+
 	}
-    }
-    for (x = 0; x < horiz-1; x++) { // fill in bottom line
-	walls[wallIndex][0] = 1;  
-	walls[wallIndex][1] = x; 
-	walls[wallIndex][2] = vert-1;
-	wallIndex++;
-    }
-    for (y = 0; y < vert-1; y++) { // fill in right-most column
-	walls[wallIndex][0] = 0;  
-	walls[wallIndex][1] = horiz-1; 
-	walls[wallIndex][2] = y;
-	wallIndex++;
-    }    
 
+	/**
+	 *  toString() returns a string representation of the maze.
+	 **/
+	public String toString() {
+		int i, j;
+		String s = "";
 
-    // Random permutation of walls in Array walls
-    int randomNum;
-    int[] temp;
-    for (int w = numOfWall; w > 0; w--) {
-	randomNum = randInt(w);
-	temp = walls[randomNum];
-	walls[randomNum] = walls[w-1];
-	walls[w-1] = temp;
-    }
+		// Print the top exterior wall.
+		for (i = 0; i < horiz; i++) {
+			s = s + "--";
+		}
+		s = s + "-\n|";
 
+		// Print the maze interior.
+		for (j = 0; j < vert; j++) {
+			// Print a row of cells and vertical walls.
+			for (i = 0; i < horiz - 1; i++) {
+				if (vWalls[i][j]) {
+					s = s + " |";
+				} else {
+					s = s + "  ";
+				}
+			}
+			s = s + " |\n+";
+			if (j < vert - 1) {
+				// Print a row of horizontal walls and wall corners.
+				for (i = 0; i < horiz; i++) {
+					if (hWalls[i][j]) {
+						s = s + "-+";
+					} else {
+						s = s + " +";
+					}
+				}
+				s = s + "\n|";
+			}
+		}
 
-    for (int m = 0; m < numOfWall; m++) {
-	for (int n = 0; n < 3; n++) {
-	    System.out.print(" | " + walls[m][n]);
-	}
-	System.out.print(" |\n");
-    }
-
-    // disjoint sets operations
-    int numOfCell = horiz * vert;  // i + j * horiz = k
-    DisjointSets sets = new DisjointSets(numOfCell);
-        
-    int cell1X, cell1Y;
-    int cell2X, cell2Y;
-    int root1, root2;
-    for (int k = 0; k < numOfWall; k++) {
-	// Determine which two cells
-	cell1X = walls[k][1];
-	cell1Y = walls[k][2];
-	if (walls[k][0] == 0) { // horiz
-	    cell2X = cell1X;
-	    cell2Y = cell1Y + 1;
-	} else { // vert
-	    cell2X = cell1X + 1;
-	    cell2Y = cell1Y;
+		// Print the bottom exterior wall.  (Note that the first corner has
+		// already been printed.)
+		for (i = 0; i < horiz; i++) {
+			s = s + "--";
+		}
+		return s + "\n";
 	}
 
-	// Determine whether these two cells are in the same set
-	root1 = sets.find(cell1X + cell1Y * horiz);
-	root2 = sets.find(cell2X + cell2Y * horiz);
-	System.out.println(k + ": " + cell1X + " " + cell1Y + " -> " + root1 + " | " + cell2X + " " + cell2Y + " -> " + root2);
-	if (root1 != root2) {
-	    sets.union(root1, root2);
-	    if (walls[k][0] == 0) hWalls[cell1X][cell1Y] = false;
-	    if (walls[k][0] == 1) vWalls[cell1X][cell1Y] = false;
+	/**
+	 * horizontalWall() determines whether the horizontal wall on the bottom
+	 * edge of cell (x, y) exists.  If the coordinates (x, y) do not correspond
+	 * to an interior wall, true is returned.
+	 **/
+	public boolean horizontalWall(int x, int y) {
+		if ((x < 0) || (y < 0) || (x > horiz - 1) || (y > vert - 2)) {
+			return true;
+		}
+		return hWalls[x][y];
 	}
-    }
 
-   
- 
-  }
+	/**
+	 * verticalWall() determines whether the vertical wall on the right edge of
+	 * cell (x, y) exists. If the coordinates (x, y) do not correspond to an
+	 * interior wall, true is returned.
+	 **/
+	public boolean verticalWall(int x, int y) {
+		if ((x < 0) || (y < 0) || (x > horiz - 2) || (y > vert - 1)) {
+			return true;
+		}
+		return vWalls[x][y];
+	}
 
-  /**
-   *  toString() returns a string representation of the maze.
-   **/
-  public String toString() {
-    int i, j;
-    String s = "";
+	/**
+	 * randInt() returns a random integer from 0 to choices - 1.
+	 **/
+	private static int randInt(int choices) {
+		if (random == null) {       // Only executed first time randInt() is called
+			random = new Random();       // Create a "Random" object with random seed
+		}
+		int r = random.nextInt() % choices;      // From 1 - choices to choices - 1
+		if (r < 0) {
+			r = -r;                                          // From 0 to choices - 1
+		}
+		return r;
+	}
 
-    // Print the top exterior wall.
-    for (i = 0; i < horiz; i++) {
-      s = s + "--";
-    }
-    s = s + "-\n|";
+	/**
+	 * diagnose() checks the maze and prints a warning if not every cell can be
+	 * reached from the upper left corner cell, or if there is a cycle reachable
+	 * from the upper left cell.
+	 *
+	 * DO NOT CHANGE THIS METHOD.  Your code is expected to work with our copy
+	 * of this method.
+	 **/
+	protected void diagnose() {
+		if ((horiz < 1) || (vert < 1) || ((horiz == 1) && (vert == 1))) {
+			return;                                    // There are no interior walls
+		}
 
-    // Print the maze interior.
-    for (j = 0; j < vert; j++) {
-      // Print a row of cells and vertical walls.
-      for (i = 0; i < horiz - 1; i++) {
-        if (vWalls[i][j]) {
-          s = s + " |";
-        } else {
-          s = s + "  ";
-        }
-      }
-      s = s + " |\n+";
-      if (j < vert - 1) {
-        // Print a row of horizontal walls and wall corners.
-        for (i = 0; i < horiz; i++) {
-          if (hWalls[i][j]) {
-            s = s + "-+";
-          } else {
-            s = s + " +";
-          }
-        }
-        s = s + "\n|";
-      }
-    }
+		boolean mazeFine = true;
 
-    // Print the bottom exterior wall.  (Note that the first corner has
-    // already been printed.)
-    for (i = 0; i < horiz; i++) {
-      s = s + "--";
-    }
-    return s + "\n";
-  }
+		// Create an array that indicates whether each cell has been visited during
+		// a depth-first traversal.
+		boolean[][] cellVisited = new boolean[horiz][vert];
+		// Do a depth-first traversal.
+		if (depthFirstSearch(0, 0, STARTHERE, cellVisited)) {
+			println("Your maze has a cycle.");
+			mazeFine = false;
+		}
 
-  /**
-   * horizontalWall() determines whether the horizontal wall on the bottom
-   * edge of cell (x, y) exists.  If the coordinates (x, y) do not correspond
-   * to an interior wall, true is returned.
-   **/
-  public boolean horizontalWall(int x, int y) {
-    if ((x < 0) || (y < 0) || (x > horiz - 1) || (y > vert - 2)) {
-      return true;
-    }
-    return hWalls[x][y];
-  }
+		// Check to be sure that every cell of the maze was visited.
+		outerLoop:
+			for (int j = 0; j < vert; j++) {
+				for (int i = 0; i < horiz; i++) {
+					if (!cellVisited[i][j]) {
+						println("Not every cell in your maze is reachable from " +
+								"every other cell.");
+						mazeFine = false;
+						break outerLoop;
+					}
+				}
+			}
 
-  /**
-   * verticalWall() determines whether the vertical wall on the right edge of
-   * cell (x, y) exists. If the coordinates (x, y) do not correspond to an
-   * interior wall, true is returned.
-   **/
-  public boolean verticalWall(int x, int y) {
-    if ((x < 0) || (y < 0) || (x > horiz - 2) || (y > vert - 1)) {
-      return true;
-    }
-    return vWalls[x][y];
-  }
+		if (mazeFine) {
+			println("What a fine maze you've created!");
+		}
+	}
 
-  /**
-   * randInt() returns a random integer from 0 to choices - 1.
-   **/
-  private static int randInt(int choices) {
-    if (random == null) {       // Only executed first time randInt() is called
-      random = new Random();       // Create a "Random" object with random seed
-    }
-    int r = random.nextInt() % choices;      // From 1 - choices to choices - 1
-    if (r < 0) {
-      r = -r;                                          // From 0 to choices - 1
-    }
-    return r;
-  }
+	/**
+	 * depthFirstSearch() does a depth-first traversal of the maze, marking each
+	 * visited cell.  Returns true if a cycle is found.
+	 *
+	 * DO NOT CHANGE THIS METHOD.  Your code is expected to work with our copy
+	 * of this method.
+	 */
+	protected boolean depthFirstSearch(int x, int y, int fromWhere,
+			boolean[][] cellVisited) {
+		boolean cycleDetected = false;
+		cellVisited[x][y] = true;
 
-  /**
-   * diagnose() checks the maze and prints a warning if not every cell can be
-   * reached from the upper left corner cell, or if there is a cycle reachable
-   * from the upper left cell.
-   *
-   * DO NOT CHANGE THIS METHOD.  Your code is expected to work with our copy
-   * of this method.
-   **/
-  protected void diagnose() {
-    if ((horiz < 1) || (vert < 1) || ((horiz == 1) && (vert == 1))) {
-      return;                                    // There are no interior walls
-    }
+		// Visit the cell to the right?
+		if ((fromWhere != FROMRIGHT) && !verticalWall(x, y)) {
+			if (cellVisited[x + 1][y]) {
+				cycleDetected = true;
+			} else {
+				cycleDetected = depthFirstSearch(x + 1, y, FROMLEFT, cellVisited) ||
+						cycleDetected;
+			}
+		}
 
-    boolean mazeFine = true;
+		// Visit the cell below?
+		if ((fromWhere != FROMBELOW) && !horizontalWall(x, y)) {
+			if (cellVisited[x][y + 1]) {
+				cycleDetected = true;
+			} else {
+				cycleDetected = depthFirstSearch(x, y + 1, FROMABOVE, cellVisited) ||
+						cycleDetected;
+			}
+		}
 
-    // Create an array that indicates whether each cell has been visited during
-    // a depth-first traversal.
-    boolean[][] cellVisited = new boolean[horiz][vert];
-    // Do a depth-first traversal.
-    if (depthFirstSearch(0, 0, STARTHERE, cellVisited)) {
-      System.out.println("Your maze has a cycle.");
-      mazeFine = false;
-    }
+		// Visit the cell to the left?
+		if ((fromWhere != FROMLEFT) && !verticalWall(x - 1, y)) {
+			if (cellVisited[x - 1][y]) {
+				cycleDetected = true;
+			} else {
+				cycleDetected = depthFirstSearch(x - 1, y, FROMRIGHT, cellVisited) ||
+						cycleDetected;
+			}
+		}
 
-    // Check to be sure that every cell of the maze was visited.
-  outerLoop:
-    for (int j = 0; j < vert; j++) {
-      for (int i = 0; i < horiz; i++) {
-        if (!cellVisited[i][j]) {
-          System.out.println("Not every cell in your maze is reachable from " +
-                             "every other cell.");
-          mazeFine = false;
-          break outerLoop;
-        }
-      }
-    }
+		// Visit the cell above?
+		if ((fromWhere != FROMABOVE) && !horizontalWall(x, y - 1)) {
+			if (cellVisited[x][y - 1]) {
+				cycleDetected = true;
+			} else {
+				cycleDetected = depthFirstSearch(x, y - 1, FROMBELOW, cellVisited) ||
+						cycleDetected;
+			}
+		}
 
-    if (mazeFine) {
-      System.out.println("What a fine maze you've created!");
-    }
-  }
+		return cycleDetected;
+	}
 
-  /**
-   * depthFirstSearch() does a depth-first traversal of the maze, marking each
-   * visited cell.  Returns true if a cycle is found.
-   *
-   * DO NOT CHANGE THIS METHOD.  Your code is expected to work with our copy
-   * of this method.
-   */
-  protected boolean depthFirstSearch(int x, int y, int fromWhere,
-                                     boolean[][] cellVisited) {
-    boolean cycleDetected = false;
-    cellVisited[x][y] = true;
+	/**
+	 * main() creates a maze of dimensions specified on the command line, prints
+	 * the maze, and runs the diagnostic method to see if the maze is good.
+	 */
+	public static void main(String[] args) {
+		int x = 39; //39
+		int y = 15;  //15
 
-    // Visit the cell to the right?
-    if ((fromWhere != FROMRIGHT) && !verticalWall(x, y)) {
-      if (cellVisited[x + 1][y]) {
-        cycleDetected = true;
-      } else {
-        cycleDetected = depthFirstSearch(x + 1, y, FROMLEFT, cellVisited) ||
-                        cycleDetected;
-      }
-    }
+		/**
+		 *  Read the input parameters.
+		 */
 
-    // Visit the cell below?
-    if ((fromWhere != FROMBELOW) && !horizontalWall(x, y)) {
-      if (cellVisited[x][y + 1]) {
-        cycleDetected = true;
-      } else {
-        cycleDetected = depthFirstSearch(x, y + 1, FROMABOVE, cellVisited) ||
-                        cycleDetected;
-      }
-    }
+		if (args.length > 0) {
+			try {
+				x = Integer.parseInt(args[0]);
+			}
+			catch (NumberFormatException e) {
+				println("First argument to Simulation is not an number.");
+			}
+		}
 
-    // Visit the cell to the left?
-    if ((fromWhere != FROMLEFT) && !verticalWall(x - 1, y)) {
-      if (cellVisited[x - 1][y]) {
-        cycleDetected = true;
-      } else {
-        cycleDetected = depthFirstSearch(x - 1, y, FROMRIGHT, cellVisited) ||
-                        cycleDetected;
-      }
-    }
+		if (args.length > 1) {
+			try {
+				y = Integer.parseInt(args[1]);
+			}
+			catch (NumberFormatException e) {
+				println("Second argument to Simulation is not an number.");
+			}
+		}
 
-    // Visit the cell above?
-    if ((fromWhere != FROMABOVE) && !horizontalWall(x, y - 1)) {
-      if (cellVisited[x][y - 1]) {
-        cycleDetected = true;
-      } else {
-        cycleDetected = depthFirstSearch(x, y - 1, FROMBELOW, cellVisited) ||
-                        cycleDetected;
-      }
-    }
+		MazeGen maze = new MazeGen(x, y);
+		print(maze);
+		maze.diagnose();
+	}
 
-    return cycleDetected;
-  }
-
-  /**
-   * main() creates a maze of dimensions specified on the command line, prints
-   * the maze, and runs the diagnostic method to see if the maze is good.
-   */
-  public static void main(String[] args) {
-      int x = 39; //39
-      int y = 15;  //15
-
-    /**
-     *  Read the input parameters.
-     */
-
-    if (args.length > 0) {
-      try {
-        x = Integer.parseInt(args[0]);
-      }
-      catch (NumberFormatException e) {
-        System.out.println("First argument to Simulation is not an number.");
-      }
-    }
-
-    if (args.length > 1) {
-      try {
-        y = Integer.parseInt(args[1]);
-      }
-      catch (NumberFormatException e) {
-        System.out.println("Second argument to Simulation is not an number.");
-      }
-    }
-
-    MazeGen maze = new MazeGen(x, y);
-    System.out.print(maze);
-    maze.diagnose();
-  }
-
+	private static boolean debug = false;
+	private static void println(Object o) {
+		if (debug)
+			System.out.println(o);
+	}
 }
