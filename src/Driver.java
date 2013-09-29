@@ -1,11 +1,9 @@
-import java.io.*;
 import java.util.*;
 
 public class Driver {
 	static Maze maze;
 	static Scene scene;
 	static Layer buffer;
-	private static Timer timer = Util.timer;
 	public static void main (String[] args) {
 
 		Scanner sc = new Scanner(System.in);

@@ -80,8 +80,8 @@ public class Maze {
 	String debugInfo() {
 		String output = "======Maze debug info======\n";
 		output += maze.toString() + "\n";
-		output += "User is at X=" + currX + ",Y=" + currY + 
-				", facing" + userFacing + "\n";
+		output += "User is at X = " + currX + ", Y = " + currY + 
+				", facing " + userFacing + "\n";
 		return output;
 		
 	}
