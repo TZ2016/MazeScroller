@@ -1,6 +1,6 @@
 public class Maze {
 	final int width, height;
-	private static double mazeDensity = 0.5;
+	private static double mazeDensity = 0.2;
 	private MazeGen maze;	
 	
 	private int counter;

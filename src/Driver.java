@@ -47,7 +47,7 @@ public class Driver extends BasicGame {
 		
 		// default value
 		Scene.DIMENSION = 5; // depends on user input
-		interval = 5000;
+		interval = 2000;
 		
 		// GUI
 		unitWidth = (SCREEN_WIDTH - 2*BORDER) / (Scene.DIMENSION + 2);
@@ -65,13 +65,31 @@ public class Driver extends BasicGame {
 	
 	public void init(GameContainer arg0) throws SlickException {
 		timePassed = 0;
-		imgPlayer = new Image("res/player.jpg");
-		imgObs = new Image("res/obstacle.jpg");
-		imgWall = new Image("res/wall.jpg");
+		imgPlayer = new Image("player.jpg");
+		imgObs = new Image("obstacle.jpg");
+		imgWall = new Image("obstacle.jpg");
 	}
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		timePassed += delta;
+		if (key == 203) {
+			player.position--;
+			if (player.position == -1 ||
+				scene.getBottom().getObstacle(player.position) != null) {
+				System.out.println("stupid decision!");
+				player.position++;
+			}
+			key = 0;
+		}
+		if (key == 205) {
+			player.position++;
+			if (player.position == Scene.DIMENSION ||
+				scene.getBottom().getObstacle(player.position) != null) {
+				System.out.println("stupid decision!");
+				player.position--;
+			}
+			key = 0;
+		}
 		if (timePassed > interval) {
 			performAction(key);
 			key = 0;
@@ -81,20 +99,6 @@ public class Driver extends BasicGame {
 	
 	private void performAction (int command) {
 		switch(command) {
-		case 203: // left arrow
-			player.position--;
-			if (scene.getBottom().getObstacle(player.position) != null) {
-				System.out.println("stupid decision!");
-				player.position++;
-			}
-			break;
-		case 205: // right arrow
-			player.position++;
-			if (scene.getBottom().getObstacle(player.position) != null) {
-				System.out.println("stupid decision!");
-				player.position--;
-			}
-			break;
 		case 30:
 			Util.println("moving left!");
 			scene = maze.getScene(Util.LEFT);
@@ -143,7 +147,29 @@ public class Driver extends BasicGame {
 	
 	@Override
 	public void render(GameContainer container, Graphics arg1) throws SlickException {
-		for (int height = 0; )
+		int height = BORDER;
+		Iterator<Layer> iter = scene.layers();
+		while (iter.hasNext()) {
+			Layer curr = iter.next();
+			int width = BORDER;
+			// draw left wall
+			imgWall.draw(width, height, unitWidth, unitWidth);
+			width += unitWidth;
+			
+			// draw obstacles
+			for (int obs = 0; obs < Scene.DIMENSION; obs++) {
+				if (curr.getObstacle(obs) != null) {
+					imgObs.draw(width, height, unitWidth, unitWidth);
+				}
+				width += unitWidth;
+			}
+			
+			// draw right wall
+			imgWall.draw(width, height, unitWidth, unitWidth);
+
+			height += unitWidth;
+		}
+		imgPlayer.draw(BORDER+(player.position+1)*unitWidth, BORDER+unitWidth*(scene.DIMENSION-1), unitWidth, unitWidth);
 	}
 	
 	public static void main (String[] args) throws SlickException {
