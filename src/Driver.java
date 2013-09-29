@@ -27,8 +27,7 @@ public class Driver {
 		// initializing
 		maze = new Maze(new MazeGen(w, h));
 		scene = maze.getScene();
-		buffer = maze.requestLayer(0, scene.getTop());
-
+		buffer = maze.requestLayer(scene.getTop());
 		String command = "";
 		sc = new Scanner(System.in);
 		while (true) {
@@ -48,10 +47,8 @@ public class Driver {
 				break;
 			default:
 				scene.updateNext(buffer);
-				buffer = maze.requestLayer(buffer);
+				buffer = maze.requestLayer(buffser);
 			}
 		}
 	}
-
-}
 }

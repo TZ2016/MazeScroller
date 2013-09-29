@@ -16,7 +16,10 @@ public class Layer {
 		right = r;
 		layer = new Obstacle[Driver.maze.getWidth()];
 	}
-
+	Layer() {
+		left = right = false;
+		generateWall();
+	}
 	void generateRandom() {
 		// create random obstacles for this layer, leaving at least one of the previous layer's opening also open
 		int guaranteedOpening = prevLayer.randomOpening();
