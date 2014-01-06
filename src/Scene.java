@@ -23,12 +23,18 @@ public class Scene {
 		return scene.getFirst();
 	}
 	
+	Iterator<Layer> layers () {
+		return scene.descendingIterator();
+	}
+	
 	public String toString() {
 		String rtn = "";
 		Iterator<Layer> iter = scene.descendingIterator();
 		while (iter.hasNext()) {
 			rtn += iter.next().toString() + "\n";
 		}
+//		for (Layer layer : scene) 
+//			rtn += layer.toString() + "\n";
 		return rtn;
 	}
 }
